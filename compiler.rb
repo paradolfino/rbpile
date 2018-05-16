@@ -53,7 +53,8 @@ class Parser
    end
    
    def parse_arg_names
-       
+       consume(:oparen)
+       consume(:cparen)
    end
    
    def consume(expected_type)
