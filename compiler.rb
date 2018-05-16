@@ -70,15 +70,13 @@ class Parser
    end
    
    def parse_expr
-       if peek(:integer)
+        if peek(:integer)
            parse_int
-       else
-            if peek(:identifier) && peek(:oparen, 1)
-                parse_call
-            else
-                parse_var_ref
-            end
-       end
+        elsif peek(:identifier) && peek(:oparen, 1)
+            parse_call
+        else
+            parse_var_ref
+        end
    end
    
    def parse_int
