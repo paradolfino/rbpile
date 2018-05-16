@@ -52,7 +52,11 @@ class Parser
    end
    
    def consume(expected_type)
-      token = @token.shift 
+      token = @tokens.shift 
+      if token.type == expected_type
+          token
+      else
+          raise RuntimeError.new("Expected token type #{exoected_type.inspect} but got #{token.type.inspect}")
    end
 end
 
