@@ -71,7 +71,7 @@ class Parser
       if token.type == expected_type
           token
       else
-          raise RuntimeError.new("Expected token type #{exoected_type.inspect} but got #{token.type.inspect}")
+          raise RuntimeError.new("Expected token type #{expected_type.inspect} but got #{token.type.inspect}")
       end
    end
 end
