@@ -105,7 +105,7 @@ class Parser
    end
    
    def parse_var_ref
-       consume(:identifier)
+       VarRefNode = consume(:identifier).value
    end
    
    def consume(expected_type)
