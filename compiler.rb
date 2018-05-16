@@ -1,13 +1,16 @@
 #!/usr/bin/env ruby
 class Tokenizer
     TOKEN_TYPES = [
-        [:def, /\bdef\b/],
-        [:end, /\bend\b/],
+        [:def, /\bact\b/],
+        [:begin, /{/],
+        [:end, /}/],
         [:identifier, /\b[a-zA-Z]+\b/],
         [:integer, /\b[0-9]+\b/],
         [:oparen, /\(/],
         [:cparen, /\)/],
-        [:comma, /,/]
+        [:comma, /,/],
+        [:operator, /\+|-|\*|\/|=|>|<|>=|<=|&|\||%|!/],
+        [:break, /[\r\n]+/]
         ]
     def initialize(code)
        @code = code 
@@ -47,20 +50,25 @@ class Parser
    end
    
    def parse_def
-      consume(:def)
-      name = consume(:identifier).value
-      arg_names = parse_arg_names
-      body = parse_expr
-      consume(:end)
-      DefNode.new(name, arg_names, body)
+        
+        consume(:def)
+        name = consume(:identifier).value
+        arg_names = parse_arg_names
+        consume(:begin)
+        body = []
+        while !chk_nxt(:end)
+            body << parse_expr
+        end
+        consume(:end)
+        DefNode.new(name, arg_names, body)
    end
    
    def parse_arg_names
        arg_names = []
        consume(:oparen)
-       if peek(:identifier)
+       if chk_nxt(:identifier)
           arg_names << consume(:identifier).value
-            while peek(:comma)
+            while chk_nxt(:comma)
                 consume(:comma)
                 arg_names << consume(:identifier).value
             end
@@ -70,9 +78,12 @@ class Parser
    end
    
    def parse_expr
-        if peek(:integer)
-           parse_int
-        elsif peek(:identifier) && peek(:oparen, 1)
+        
+        if chk_nxt(:integer)
+            parse_int
+        elsif chk_nxt(:operator)
+            parse_add
+        elsif chk_nxt(:identifier) && chk_nxt(:oparen, 1)
             parse_call
         else
             parse_var_ref
@@ -81,6 +92,10 @@ class Parser
    
    def parse_int
       IntegerNode.new(consume(:integer).value.to_i)
+   end
+   
+   def parse_add
+       OperatorNode.new(consume(:operator)).value
    end
    
    def parse_call
@@ -93,9 +108,9 @@ class Parser
    def parse_arg_exprs
        arg_exprs = []
        consume(:oparen)
-       if !peek(:cparen)
+       if !chk_nxt(:cparen)
           arg_exprs << parse_expr
-            while peek(:comma)
+            while chk_nxt(:comma)
                 consume(:comma)
                 arg_exprs << parse_expr
             end
@@ -109,6 +124,7 @@ class Parser
    end
    
    def consume(expected_type)
+
       token = @tokens.shift 
       if token.type == expected_type
           token
@@ -117,7 +133,7 @@ class Parser
       end
    end
    
-   def peek(expected_type, offset=0)
+   def chk_nxt(expected_type, offset=0)
        @tokens.fetch(offset).type == expected_type
    end
    
@@ -127,19 +143,22 @@ class Generator
    def generate(node)
         case node
         when DefNode
-            "function %s(%s) { return %s };" % [
+            node.body.map! { |b| b.to_a }.each { |b| b.shift }
+            "def %s %s %s end" % [
                 node.name, 
                 node.arg_names.join(","), 
-                generate(node.body)
+                node.body.join(" ")
             ]
         when CallNode
-            "%s(%s)" % [
+            "%s %s" % [
                     node.name,
                     node.arg_exprs.map { |ex| generate(ex) }.join(",")
                 ]
         when VarRefNode
             node.value
         when IntegerNode
+            node.value
+        when OperatorNode
             node.value
         else
             raise RuntimeError.new("Unexpected node type: #{node.class}")    
@@ -150,9 +169,11 @@ end
 Token = Struct.new(:type, :value)
 DefNode = Struct.new(:name, :arg_names, :body)
 IntegerNode = Struct.new(:value)
+OperatorNode = Struct.new(:value)
 CallNode = Struct.new(:name, :arg_exprs)
 VarRefNode = Struct.new(:value)
 tokens = Tokenizer.new(File.read("test.src")).tokenize
+p tokens
 tree = Parser.new(tokens).parse
 generated = Generator.new.generate(tree)
 puts generated
