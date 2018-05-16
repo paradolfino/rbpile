@@ -7,7 +7,7 @@ class Tokenizer
         [:integer, /\b[0-9]+\b/],
         [:oparen, /\(/],
         [:cparen, /\)/],
-        [:comma, /,/],
+        [:comma, /,/]
         ]
     def initialize(code)
        @code = code 
@@ -61,6 +61,7 @@ class Parser
        if peek(:identifier)
           arg_names << consume(:identifier).value
             while peek(:comma)
+                consume(:comma)
                 arg_names << consume(:identifier).value
             end
        end
