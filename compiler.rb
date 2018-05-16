@@ -52,7 +52,7 @@ class Parser
    end
    
    def consume(expected_type)
-      token = @token.unshift 
+      token = @token.shift 
    end
 end
 
