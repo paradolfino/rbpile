@@ -36,6 +36,16 @@ class Tokenizer
     
 end
 
+class Parser
+   def initialize(tokens)
+      @tokens = tokens 
+   end
+   
+   def parse
+       
+   end
+end
+
 Token = Struct.new(:type, :value)
 
 tokens = Tokenizer.new(File.read("test.src")).tokenize
