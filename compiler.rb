@@ -59,7 +59,11 @@ class Parser
    end
    
    def parse_expr
-       
+       parse_integer
+   end
+   
+   def parse_int
+      consume(:integer) 
    end
    
    def consume(expected_type)
