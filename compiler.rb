@@ -7,7 +7,7 @@ class Tokenizer
         [:integer, /\b[0-9]+\b/],
         [:oparen, /\(/],
         [:cparen, /\)/],
-        [:comma, /,/]
+        [:comma, /,/],
         ]
     def initialize(code)
        @code = code 
