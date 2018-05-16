@@ -107,7 +107,7 @@ class Parser
    end
    
    def parse_var_ref
-       
+       consume(:identifier)
    end
    
    def consume(expected_type)
