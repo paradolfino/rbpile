@@ -70,7 +70,11 @@ class Parser
    end
    
    def parse_expr
-       parse_int
+       if peek(:integer)
+           parse_int
+       else
+           parse_call
+       end
    end
    
    def parse_int
