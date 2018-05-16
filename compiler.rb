@@ -83,6 +83,11 @@ class Parser
           raise RuntimeError.new("Expected token type #{expected_type.inspect} but got #{token.type.inspect}")
       end
    end
+   
+   def peek(expected_type)
+       @tokens.fetch(0).type == expected_type
+   end
+   
 end
 
 Token = Struct.new(:type, :value)
