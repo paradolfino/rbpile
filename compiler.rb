@@ -58,7 +58,7 @@ class Parser
        arg_names = []
        consume(:oparen)
        if peek(:identifier)
-          arg_names << consume(:identifier) 
+          arg_names << consume(:identifier).value
             while peek(:comma)
                 arg_names << consume(:identifier).value
             end
