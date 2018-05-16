@@ -81,6 +81,12 @@ class Parser
       IntegerNode.new(consume(:integer).value.to_i)
    end
    
+   def parse_call
+      consume(:identifier)
+      consume(:oparen)
+      consume(:cparen)
+   end
+   
    def consume(expected_type)
       token = @tokens.shift 
       if token.type == expected_type
