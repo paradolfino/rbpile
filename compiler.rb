@@ -97,7 +97,7 @@ class Parser
           arg_exprs << parse_expr
             while peek(:comma)
                 consume(:comma)
-                arg_exprs << parse_exprs
+                arg_exprs << parse_expr
             end
        end
        consume(:cparen)
