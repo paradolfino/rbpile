@@ -57,6 +57,7 @@ class Parser
    def parse_arg_names
        consume(:oparen)
        consume(:cparen)
+       []
    end
    
    def parse_expr
