@@ -78,7 +78,7 @@ class Parser
 end
 
 Token = Struct.new(:type, :value)
-
+DefNode = Struct.new(:name, :arg_names, :body)
 tokens = Tokenizer.new(File.read("test.src")).tokenize
 
 puts tokens.map(&:inspect).join("\n")
