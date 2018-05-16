@@ -106,6 +106,10 @@ class Parser
        arg_exprs
    end
    
+   def parse_var_ref
+       
+   end
+   
    def consume(expected_type)
       token = @tokens.shift 
       if token.type == expected_type
