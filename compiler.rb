@@ -52,6 +52,10 @@ class Parser
       body
    end
    
+   def parse_arg_names
+       
+   end
+   
    def consume(expected_type)
       token = @tokens.shift 
       if token.type == expected_type
