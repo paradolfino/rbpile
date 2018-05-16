@@ -59,7 +59,7 @@ class Parser
    end
    
    def parse_expr
-       parse_integer
+       parse_int
    end
    
    def parse_int
