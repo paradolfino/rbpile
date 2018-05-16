@@ -81,3 +81,7 @@ Token = Struct.new(:type, :value)
 tokens = Tokenizer.new(File.read("test.src")).tokenize
 
 puts tokens.map(&:inspect).join("\n")
+
+tree = Parser.new(token).parse
+
+p tree
