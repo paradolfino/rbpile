@@ -95,7 +95,7 @@ class Parser
           arg_names << consume(:identifier).value
             while peek(:comma)
                 consume(:comma)
-                arg_names << consume(:identifier).value
+                arg_exprs << consume(:identifier).value
             end
        end
        consume(:cparen)
