@@ -51,6 +51,7 @@ class Parser
       arg_names = parse_arg_names
       body = parse_expr
       consume(:end)
+      DefNode.new(name, arg_names, body)
    end
    
    def parse_arg_names
