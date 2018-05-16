@@ -65,7 +65,6 @@ class Parser
    end
    
    def parse_int
-      consume(:integer)
       IntegerNode.new(consume(:integer).value.to_i)
    end
    
