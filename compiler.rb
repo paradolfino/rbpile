@@ -42,7 +42,13 @@ class Parser
    end
    
    def parse
-       
+       parse_def
+   end
+   
+   def parse_def
+      name
+      arg_names
+      body
    end
 end
 
