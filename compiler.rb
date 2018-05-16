@@ -50,6 +50,10 @@ class Parser
       arg_names
       body
    end
+   
+   def consume(expected_type)
+      token = @token.unshift 
+   end
 end
 
 Token = Struct.new(:type, :value)
