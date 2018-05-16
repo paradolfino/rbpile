@@ -83,10 +83,14 @@ class Parser
    
    def parse_call
       name = consume(:identifier).value
-      consume(:oparen)
-      arg_exprs = []
-      consume(:cparen)
+      arg_exprs = parse_arg_exprs
+      
       CallNode.new(name, arg_exprs)
+   end
+   
+   def parse_arg_exprs
+      consume(:oparen)
+      consume(:cparen) 
    end
    
    def consume(expected_type)
