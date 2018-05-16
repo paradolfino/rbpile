@@ -127,7 +127,7 @@ Token = Struct.new(:type, :value)
 DefNode = Struct.new(:name, :arg_names, :body)
 IntegerNode = Struct.new(:value)
 CallNode = Struct.new(:name, :arg_exprs)
-VarRefNode = Struct.new(:name)
+VarRefNode = Struct.new(:value)
 tokens = Tokenizer.new(File.read("test.src")).tokenize
 
 puts tokens.map(&:inspect).join("\n")
