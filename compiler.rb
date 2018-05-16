@@ -116,7 +116,7 @@ class Parser
    end
    
    def peek(expected_type, offset=0)
-       @tokens.fetch(0).type == expected_type
+       @tokens.fetch(offset).type == expected_type
    end
    
 end
