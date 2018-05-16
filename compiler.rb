@@ -48,7 +48,7 @@ class Parser
    def parse_def
        consume(:def)
       name = consume(:identifier)
-      arg_names
+      arg_names = parse_arg_names
       body
    end
    
