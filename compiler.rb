@@ -55,7 +55,11 @@ class Parser
    end
    
    def parse_arg_names
+       arg_names = []
        consume(:oparen)
+       if peek(identifier)
+          arg_names < <consume(:identifier) 
+       end
        consume(:cparen)
        []
    end
