@@ -57,6 +57,10 @@ class Parser
        consume(:cparen)
    end
    
+   def parse_expr
+       
+   end
+   
    def consume(expected_type)
       token = @tokens.shift 
       if token.type == expected_type
