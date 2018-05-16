@@ -73,7 +73,11 @@ class Parser
        if peek(:integer)
            parse_int
        else
-           parse_call
+            if peek(:identifier) && peek(:oparen, 1)
+                parse_call
+            else
+                parse_var_ref
+            end
        end
    end
    
